@@ -1,0 +1,27 @@
+
+erDiagram
+    STATISTICS {
+        INT id PK "Statistic ID"
+        INT user_id FK "User ID"
+        INT likes "Likes Count"
+        INT views "Views Count"
+        INT comments "Comments Count"
+        TIMESTAMP created_at "Timestamp"
+    }
+    ACTIVITY_LOG {
+        INT id PK "Activity Log ID"
+        INT user_id FK "User ID"
+        VARCHAR activity_type "Activity Type"
+        TIMESTAMP created_at "Activity Timestamp"
+        VARCHAR description "Activity Description"
+    }
+    TRENDS {
+        INT id PK "Trend ID"
+        INT post_id FK "Post ID"
+        INT likes "Likes Count"
+        INT views "Views Count"
+        TIMESTAMP trend_start "Trend Start Date"
+    }
+
+    STATISTICS ||--o| ACTIVITY_LOG : "has"
+    STATISTICS ||--o| TRENDS : "has"
