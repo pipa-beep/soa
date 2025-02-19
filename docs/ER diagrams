@@ -1,0 +1,30 @@
+# RegAuth Service - ER Diagram
+
+erDiagram
+    USERS {
+        INT id PK "User ID"
+        VARCHAR username "Username"
+        VARCHAR email "Email"
+        VARCHAR password_hash "Password Hash"
+        TIMESTAMP created_at "Account Creation Time"
+    }
+    SESSION_TOKENS {
+        INT id PK "Token ID"
+        INT user_id FK "User ID"
+        VARCHAR token "Session Token"
+        TIMESTAMP expires_at "Expiration Time"
+        TIMESTAMP created_at "Token Creation Time"
+    }
+    PASSWORD_RESET {
+        INT id PK "Reset Request ID"
+        INT user_id FK "User ID"
+        VARCHAR token "Reset Token"
+        TIMESTAMP created_at "Request Time"
+        TIMESTAMP expires_at "Expiration Time"
+    }
+
+    USERS ||--o| SESSION_TOKENS : "has"
+    USERS ||--o| PASSWORD_RESET : "has"
+
+
+
