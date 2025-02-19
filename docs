@@ -1,0 +1,83 @@
+specification {
+    element person {
+        style {
+            shape person
+            color green
+        }
+    }
+    element softwareSystem
+    element container
+}
+
+model {
+    user = person "Client" "Пользователь Social Media"
+    
+    socialMedia = softwareSystem "Social Media" {
+        ui = container "User Interface" {
+            description "Интерфейс пользователя"
+            technology "React, JavaScript"
+        }
+        
+        apiGateway = container "API Gateway" {
+            description "Маршрутизация и управление доступом"
+            technology "Python, Flask"
+        }
+
+        regAuth = container "RegAuth" {
+            description "Регистрация и аутентификация пользователей"
+            technology "Python"
+        }
+        
+        statistics = container "Statistics" {
+            description "Сервис статистики составления статистика по лайкам/просмотрам/комментариям"
+            technology "Python"
+        }
+        
+        postsService = container "Posts/Likes/Comments" {
+            description "Сервис постов и комментариев"
+            technology "Python"
+        }
+        
+        postgresDbAuth = container "PostgreSQLAuth" {
+            description "Хранение данных пользователей соцсети"
+            technology "Database"
+            style {
+                shape cylinder
+            }
+        }
+        
+        clickhouseDb = container "ClickhouseDB" {
+            description "Хранение статистики по лайкам, просмотрам, комментариям"
+            technology "Database"
+            style {
+                shape cylinder
+            }
+        }
+        
+        postsDb = container "PostsDB" {
+            description "Хранение данных постов и комментариев"
+            technology "PostgreSQL или Cassandra"
+            style {
+                shape cylinder
+            }
+        }
+    }
+
+    user -> socialMedia.ui "Использует HTTPS"
+    socialMedia.ui -> socialMedia.apiGateway "Отправляет запросы REST API"
+    socialMedia.apiGateway -> socialMedia.postsService "Перенаправляет HTTPS"
+    socialMedia.apiGateway -> socialMedia.regAuth "Маршрутизирует JSON/HTTPS"
+    socialMedia.apiGateway -> socialMedia.statistics "Маршрутизирует JSON/HTTPS"
+
+    socialMedia.regAuth -> socialMedia.postgresDbAuth "Читает/Пишет SQL"
+    socialMedia.statistics -> socialMedia.clickhouseDb "Читает/Пишет CQL"
+    socialMedia.postsService -> socialMedia.postsDb "Читает/Пишет SQL или CQL"
+
+
+}
+
+views {
+    view index {
+        include *
+    }
+}
