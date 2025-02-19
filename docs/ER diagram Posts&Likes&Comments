@@ -1,4 +1,3 @@
-
 erDiagram
     POSTS {
         INT id PK "Post ID"
@@ -8,18 +7,22 @@ erDiagram
         TIMESTAMP updated_at "Last Update Time"
     }
     COMMENTS {
-        INT id PK "Comment ID"
-        INT post_id FK "Post ID"
-        INT user_id FK "User ID"
-        VARCHAR content "Comment Content"
-        TIMESTAMP created_at "Comment Creation Time"
+    INT id PK "Comment ID"
+    INT post_id FK "Post ID"
+    INT user_id FK "User ID"
+    INT parent_comment_id FK "Parent Comment ID (if reply)"
+    VARCHAR content "Comment Content"
+    TIMESTAMP created_at "Comment Creation Time"
     }
-    LIKES {
-        INT id PK "Like ID"
-        INT post_id FK "Post ID"
-        INT user_id FK "User ID"
-        TIMESTAMP created_at "Like Time"
+
+   LIKES {
+    INT id PK "Like ID"
+    INT post_id FK "Post ID"
+    INT user_id FK "User ID"
+    VARCHAR device_type "Device Type (mobile, web, etc.)"
+    TIMESTAMP created_at "Like Time"
     }
+
 
     POSTS ||--o| COMMENTS : "has"
     POSTS ||--o| LIKES : "has"
